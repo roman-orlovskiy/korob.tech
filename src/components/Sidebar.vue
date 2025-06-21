@@ -54,7 +54,7 @@
 <style scoped>
 .sidebar {
   width: 280px;
-  height: 100vh;
+  min-height: 100%;
   background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;

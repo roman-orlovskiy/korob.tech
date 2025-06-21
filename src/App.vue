@@ -23,19 +23,22 @@ import Sidebar from '@/components/Sidebar.vue'
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  min-height: 100vh;
+  min-height: 100%;
   display: flex;
   width: 100%;
+  height: 100%;
 }
 
 .app {
   width: 100%;
   display: flex;
+  min-height: 100%;
+  height: 100%;
 }
 
 .main-content {
   flex: 1;
-  min-height: 100vh;
+  min-height: 100%;
   background: #f8f9fa;
 }
 
