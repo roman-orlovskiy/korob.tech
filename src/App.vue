@@ -25,10 +25,12 @@ import Sidebar from '@/components/Sidebar.vue'
   color: #2c3e50;
   min-height: 100vh;
   display: flex;
+  width: 100%;
 }
 
 .app {
-  width: 100vw;
+  width: 100%;
+  display: flex;
 }
 
 .main-content {
