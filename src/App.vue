@@ -3,7 +3,7 @@ import Sidebar from '@/components/Sidebar.vue'
 </script>
 
 <template>
-  <div id="app">
+  <div class="app">
     <Sidebar />
     <main class="main-content">
       <router-view />
@@ -27,11 +27,13 @@ import Sidebar from '@/components/Sidebar.vue'
   display: flex;
 }
 
+.app {
+  width: 100vw;
+}
+
 .main-content {
   flex: 1;
-  margin-left: 280px;
   min-height: 100vh;
-  width: calc(100vw - 280px);
   background: #f8f9fa;
 }
 
