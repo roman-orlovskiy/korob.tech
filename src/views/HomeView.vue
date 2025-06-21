@@ -35,9 +35,10 @@
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&display=swap');
 
 .home {
+  width: 100%;
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
   position: relative;
@@ -59,6 +60,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   min-height: 100vh;
   padding: 2rem;
   position: relative;
@@ -68,13 +70,13 @@
 .hero-content {
   text-align: center;
   color: white;
-  max-width: 800px;
+  max-width: 900px;
   z-index: 2;
 }
 
 .hero-title {
   font-family: 'Orbitron', monospace;
-  font-size: 4rem;
+  font-size: 4.5rem;
   font-weight: 900;
   margin-bottom: 1.5rem;
   line-height: 1.2;
@@ -95,21 +97,22 @@
 }
 
 .hero-subtitle {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 300;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 400;
   margin-bottom: 1rem;
   opacity: 0.9;
   letter-spacing: 1px;
 }
 
 .hero-description {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.2rem;
+  font-weight: 300;
   line-height: 1.8;
   margin-bottom: 3rem;
   opacity: 0.8;
-  max-width: 600px;
+  max-width: 700px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -122,7 +125,7 @@
 }
 
 .primary-btn, .secondary-btn {
-  font-family: 'Inter', sans-serif;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
   font-size: 1.1rem;
   padding: 1rem 2.5rem;

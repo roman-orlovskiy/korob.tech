@@ -52,7 +52,7 @@
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&display=swap');
 
 .sidebar {
   width: 280px;
@@ -115,7 +115,7 @@
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   transition: all 0.3s ease;
-  font-family: 'Inter', sans-serif;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 500;
   position: relative;
   overflow: hidden;
@@ -171,8 +171,10 @@
 }
 
 .nav-text {
-  font-size: 1rem;
-  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
 .sidebar-footer {
@@ -191,12 +193,14 @@
   border: none;
   border-radius: 12px;
   color: white;
-  font-family: 'Inter', sans-serif;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .auth-btn:hover {
@@ -230,7 +234,7 @@
   }
   
   .nav-text {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 }
 </style> 

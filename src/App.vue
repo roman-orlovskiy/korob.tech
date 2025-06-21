@@ -12,7 +12,7 @@ import Sidebar from '@/components/Sidebar.vue'
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap');
 
 * {
   margin: 0;
@@ -21,7 +21,7 @@ import Sidebar from '@/components/Sidebar.vue'
 }
 
 #app {
-  font-family: 'Inter', sans-serif;
+  font-family: 'JetBrains Mono', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -33,12 +33,14 @@ import Sidebar from '@/components/Sidebar.vue'
   flex: 1;
   margin-left: 280px;
   min-height: 100vh;
+  width: calc(100vw - 280px);
   background: #f8f9fa;
 }
 
 @media (max-width: 768px) {
   .main-content {
     margin-left: 0;
+    width: 100vw;
   }
 }
 
