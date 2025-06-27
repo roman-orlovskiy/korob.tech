@@ -14,14 +14,14 @@ $background-color: #ffffff;
 }
 
 @mixin button-style {
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   border: none;
   border-radius: $border-radius;
   cursor: pointer;
   transition: all 0.3s ease;
   
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-0.125rem);
     box-shadow: $shadow-md;
   }
 }
@@ -54,12 +54,12 @@ body {
 
 // Утилитарные классы
 .container {
-  max-width: 1200px;
+  max-width: 75rem;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 1.25rem;
   
   @include responsive(md) {
-    padding: 0 40px;
+    padding: 0 2.5rem;
   }
 }
 

@@ -27,9 +27,9 @@ $bg-secondary: #f8f9fa;
 $bg-dark: #343a40;
 
 // Размеры
-$border-radius: 4px;
-$border-radius-lg: 8px;
-$border-radius-xl: 12px;
+$border-radius: 0.25rem;
+$border-radius-lg: 0.5rem;
+$border-radius-xl: 0.75rem;
 
 // Отступы
 $p-1: 0.25rem;
@@ -57,15 +57,15 @@ $mb-4: 1.5rem;
 $mb-5: 3rem;
 
 // Тени
-$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-$shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
-$shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+$shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+$shadow-md: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 
 // Брейкпоинты
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
+$breakpoint-sm: 36rem;
+$breakpoint-md: 48rem;
+$breakpoint-lg: 62rem;
+$breakpoint-xl: 75rem;
 
 // Z-индексы
 $z-dropdown: 1000;
