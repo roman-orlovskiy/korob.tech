@@ -5,12 +5,25 @@
         Сервисы и виджеты,<br>которые реально помогают сайтам
       </div>
       
-      <div class="editor-card">
-        <div class="card-content">
-          <EditIcon />
-          <div class="card-text">
-            <h2>КОРОБ.Редактор</h2>
-            <p>Мощный инструмент для создания и редактирования виджетов</p>
+      <div class="cards-container">
+        <div class="item-card">
+          <div class="card-content">
+            <EditIcon />
+            <div class="card-text">
+              <h2>КОРОБ.Редактор</h2>
+              <p>Мощный инструмент для управления контентом сайта</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="item-card development">
+          <div class="card-content">
+            <RequestsIcon />
+            <div class="card-text">
+              <h2>КОРОБ.Заявки</h2>
+              <p>Сбор заявок с сайта в телеграм</p>
+              <span class="development-badge">В разработке</span>
+            </div>
           </div>
         </div>
       </div>
@@ -20,6 +33,7 @@
 
 <script setup lang="ts">
 import EditIcon from '@/components/icons/EditIcon.vue'
+import RequestsIcon from '@/components/icons/RequestsIcon.vue'
 </script>
 
 <style scoped lang="scss">
@@ -47,21 +61,41 @@ import EditIcon from '@/components/icons/EditIcon.vue'
   font-family: $font-family-primary;
 }
 
-.editor-card {
+.cards-container {
+  display: flex;
+  gap: $p-4;
+  justify-content: center;
+  margin-top: $mt-5;
+  flex-wrap: wrap;
+}
+
+.item-card {
   background: $bg-primary;
   padding: $p-5;
   border-radius: $border-radius-xl;
   box-shadow: $shadow-lg;
-  margin-top: $mt-5;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 400px;
+  flex: 1;
+  min-width: 300px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
-.editor-card:hover {
+.item-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.item-card.development {
+  opacity: 0.7;
+  cursor: not-allowed;
+  position: relative;
+  background: linear-gradient(135deg, $bg-primary 0%, rgba($text-muted, 0.1) 100%);
+}
+
+.item-card.development:hover {
+  transform: none;
+  box-shadow: $shadow-lg;
 }
 
 .card-content {
@@ -73,6 +107,7 @@ import EditIcon from '@/components/icons/EditIcon.vue'
 .card-text {
   text-align: left;
   flex: 1;
+  position: relative;
 }
 
 .card-text h2 {
@@ -86,14 +121,37 @@ import EditIcon from '@/components/icons/EditIcon.vue'
 .card-text p {
   font-size: 1rem;
   color: $text-secondary;
-  margin: 0;
+  margin: 0 0 $mb-2 0;
   line-height: 1.5;
+  font-family: $font-family-primary;
+}
+
+.development-badge {
+  display: inline-block;
+  background: $warning-color;
+  color: $text-primary;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: $p-1 $p-2;
+  border-radius: $border-radius;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   font-family: $font-family-primary;
 }
 
 @media (max-width: $breakpoint-md) {
   .main-title {
     font-size: 2.5rem;
+  }
+  
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .item-card {
+    max-width: 500px;
+    width: 100%;
   }
   
   .card-content {
@@ -111,8 +169,9 @@ import EditIcon from '@/components/icons/EditIcon.vue'
     font-size: 2rem;
   }
   
-  .editor-card {
+  .item-card {
     padding: $p-4;
+    min-width: 250px;
   }
 }
 </style> 
