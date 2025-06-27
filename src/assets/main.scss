@@ -46,7 +46,7 @@ $background-color: #ffffff;
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: $font-family-primary;
   color: $text-primary;
   background-color: $bg-primary;
   line-height: 1.6;
