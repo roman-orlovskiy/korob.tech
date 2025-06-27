@@ -4,7 +4,6 @@ import ExampleComponent from '@/components/ExampleComponent.vue'
 
 <template>
   <div class="app">
-    <ExampleComponent />
     <main class="main-content">
       <router-view />
     </main>
