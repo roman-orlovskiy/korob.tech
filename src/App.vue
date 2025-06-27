@@ -17,6 +17,5 @@ import Header from './components/Header.vue'
 }
 
 .main-content {
-  padding-top: 80px; /* Отступ для фиксированного header */
 }
 </style>

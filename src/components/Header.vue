@@ -57,16 +57,18 @@ const closeMenu = () => {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/variables.scss';
+
 .header {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba($bg-primary, 0.95);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba($text-primary, 0.1);
 }
 
 .header-container {
-  max-width: 1200px;
+  max-width: $breakpoint-xl;
   margin: 0 auto;
-  padding: 1rem 2rem;
+  padding: $p-3 $p-4;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -75,23 +77,24 @@ const closeMenu = () => {
 .logo h1 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #333;
+  color: $text-primary;
   margin: 0;
   letter-spacing: 0.1em;
+  font-family: $font-family-primary;
 }
 
 .burger-button {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
+  padding: $p-2;
+  border-radius: $border-radius-lg;
   transition: background-color 0.2s ease;
-  color: #333;
+  color: $text-primary;
 }
 
 .burger-button:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba($text-primary, 0.05);
 }
 
 /* Модальное окно */
@@ -100,19 +103,19 @@ const closeMenu = () => {
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba($bg-dark, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: $z-modal;
   height: 100vh;
 }
 
 .modal-content {
-  background: white;
-  border-radius: 1rem;
-  padding: 3rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  background: $bg-primary;
+  border-radius: $border-radius-xl;
+  padding: $p-5;
+  box-shadow: $shadow-lg;
   max-width: 400px;
   width: 90%;
 }
@@ -128,7 +131,7 @@ const closeMenu = () => {
 }
 
 .nav-item {
-  margin-bottom: 1.5rem;
+  margin-bottom: $mb-4;
 }
 
 .nav-item:last-child {
@@ -139,20 +142,22 @@ const closeMenu = () => {
   display: block;
   font-size: 1.25rem;
   font-weight: 500;
-  color: #333;
+  color: $text-primary;
   text-decoration: none;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
+  padding: $p-3 $p-3;
+  border-radius: $border-radius-lg;
   transition: all 0.2s ease;
+  font-family: $font-family-primary;
 }
 
 .nav-link:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-  color: #000;
+  background-color: rgba($text-primary, 0.05);
+  color: $text-primary;
 }
 
 .nav-link.router-link-active {
   background-color: $primary-color;
+  color: $text-primary;
 }
 
 /* Анимации */

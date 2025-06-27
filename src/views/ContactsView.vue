@@ -24,46 +24,51 @@
 // Страница контактов
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/assets/variables.scss';
+
 .contacts {
-  padding: 2rem;
+  padding: $p-4;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: $breakpoint-xl;
   margin: 0 auto;
 }
 
 h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #333;
-  margin-bottom: 2rem;
+  color: $text-primary;
+  margin-bottom: $mb-4;
+  font-family: $font-family-primary;
 }
 
 .contact-info {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  gap: $p-4;
 }
 
 .contact-item {
-  background: white;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: $bg-primary;
+  padding: $p-4;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-md;
 }
 
 .contact-item h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 0.5rem;
+  color: $text-primary;
+  margin-bottom: $mb-2;
+  font-family: $font-family-primary;
 }
 
 .contact-item p {
   font-size: 1.1rem;
-  color: #666;
+  color: $text-secondary;
   margin: 0;
+  font-family: $font-family-primary;
 }
 </style> 

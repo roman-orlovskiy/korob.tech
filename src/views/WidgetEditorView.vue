@@ -11,26 +11,30 @@
 // Страница виджет редактора
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/assets/variables.scss';
+
 .widget-editor {
-  padding: 2rem;
+  padding: $p-4;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: $breakpoint-xl;
   margin: 0 auto;
 }
 
 h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #333;
-  margin-bottom: 1rem;
+  color: $text-primary;
+  margin-bottom: $mb-3;
+  font-family: $font-family-primary;
 }
 
 p {
   font-size: 1.1rem;
-  color: #666;
+  color: $text-secondary;
   line-height: 1.6;
+  font-family: $font-family-primary;
 }
 </style> 
