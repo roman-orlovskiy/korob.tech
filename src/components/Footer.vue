@@ -2,9 +2,17 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-content">
-        <router-link to="/" class="footer-link">
-          Главная
-        </router-link>
+        <nav class="footer-nav">
+          <router-link to="/" class="footer-link">
+            Главная
+          </router-link>
+          <router-link to="/widget-editor" class="footer-link">
+            КОРОБ. Редактор
+          </router-link>
+          <router-link to="/contacts" class="footer-link">
+            Контакты
+          </router-link>
+        </nav>
         <div class="footer-logo">
           КОРОБ © 2025
         </div>
@@ -41,6 +49,13 @@
   gap: $p-3;
 }
 
+.footer-nav {
+  display: flex;
+  gap: $p-4;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .footer-link {
   color: $text-light;
   text-decoration: none;
@@ -51,11 +66,14 @@
   &:hover {
     color: $primary-color;
   }
+  
+  &.router-link-active {
+    color: $primary-color;
+  }
 }
 
 .footer-logo {
   font-family: $font-family-primary;
-  font-weight: 700;
   font-size: 1.125rem;
   letter-spacing: 0.05em;
 }
@@ -64,6 +82,11 @@
   .footer-content {
     flex-direction: column;
     text-align: center;
+    gap: $p-3;
+  }
+  
+  .footer-nav {
+    flex-direction: column;
     gap: $p-2;
   }
 }
