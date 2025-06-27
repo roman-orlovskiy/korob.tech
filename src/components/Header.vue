@@ -25,7 +25,7 @@
               </li>
               <li class="nav-item">
                 <router-link to="/widget-editor" class="nav-link" @click="closeMenu">
-                  Виджет редактора
+                  КОРОБ. Редактор
                 </router-link>
               </li>
               <li class="nav-item">
@@ -56,13 +56,8 @@ const closeMenu = () => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -105,12 +100,12 @@ const closeMenu = () => {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
   background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  height: 100vh;
 }
 
 .modal-content {
@@ -157,8 +152,7 @@ const closeMenu = () => {
 }
 
 .nav-link.router-link-active {
-  background-color: #007bff;
-  color: white;
+  background-color: $primary-color;
 }
 
 /* Анимации */
