@@ -1,5 +1,5 @@
 {
-  "name": "Korob — виджеты для сайтов",
+  "name": "КОРОБ — виджеты для сайтов",
   "short_name": "Korob",
   "description": "Korob — виджеты для сайтов",
   "icons": [
@@ -14,8 +14,8 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#3B82F6",
-  "background_color": "#90EE90",
+  "theme_color": "#f1df6f",
+  "background_color": "#ffffff",
   "display": "standalone",
   "start_url": "/"
 }
