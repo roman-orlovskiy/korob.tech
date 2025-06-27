@@ -9,6 +9,16 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
+    {
+      path: '/widget-editor',
+      name: 'widget-editor',
+      component: () => import('@/views/WidgetEditorView.vue')
+    },
+    {
+      path: '/contacts',
+      name: 'contacts',
+      component: () => import('@/views/ContactsView.vue')
+    }
   ]
 })
 

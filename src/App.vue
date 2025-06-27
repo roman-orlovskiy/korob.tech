@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import ExampleComponent from '@/components/ExampleComponent.vue'
+import Header from './components/Header.vue'
 </script>
 
 <template>
   <div class="app">
+    <Header />
     <main class="main-content">
       <router-view />
     </main>
@@ -11,5 +12,11 @@ import ExampleComponent from '@/components/ExampleComponent.vue'
 </template>
 
 <style>
+.app {
+  min-height: 100vh;
+}
 
+.main-content {
+  padding-top: 80px; /* Отступ для фиксированного header */
+}
 </style>
