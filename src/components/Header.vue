@@ -63,6 +63,8 @@ const closeMenu = () => {
   background: rgba($bg-primary, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba($text-primary, 0.1);
+  position: relative;
+  z-index: $z-fixed;
 }
 
 .header-container {
