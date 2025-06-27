@@ -27,6 +27,17 @@
           </div>
         </div>
       </div>
+
+      <div class="cta-section">
+        <div class="cta-content">
+          <div class="cta-text">Нужен виджет, бот или сайт?<br>Создадим под ваши задачи!</div>
+          <a href="https://t.me/orlovskiy_rl" target="_blank">
+            <Button variant="outline" size="lg">
+              Написать в Telegram
+            </Button>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +45,11 @@
 <script setup lang="ts">
 import EditIcon from '@/components/icons/EditIcon.vue'
 import RequestsIcon from '@/components/icons/RequestsIcon.vue'
+import Button from '@/components/Button.vue'
+
+const openTelegram = () => {
+  window.open('https://t.me/korob_tech', '_blank')
+}
 </script>
 
 <style scoped lang="scss">
@@ -139,6 +155,42 @@ import RequestsIcon from '@/components/icons/RequestsIcon.vue'
   font-family: $font-family-primary;
 }
 
+.cta-section {
+  background: $primary-color;
+  border-radius: $border-radius-xl;
+  padding: $p-5;
+  margin-top: $mt-5;
+  box-shadow: $shadow-lg;
+}
+
+.cta-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cta-content h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin: 0 0 $mb-3 0;
+  font-family: $font-family-primary;
+  line-height: 1.3;
+}
+
+.cta-content p {
+  font-size: 1.25rem;
+  color: $text-primary;
+  margin: 0 0 $mb-4 0;
+  font-family: $font-family-primary;
+  font-weight: 500;
+}
+
+.cta-text {
+  font-size: 2rem;
+  color: $text-primary;
+  margin: 0 0 $mb-4 0;
+}
+
 @media (max-width: $breakpoint-md) {
   .main-title {
     font-size: 2.5rem;
@@ -162,6 +214,14 @@ import RequestsIcon from '@/components/icons/RequestsIcon.vue'
   .card-text {
     text-align: center;
   }
+  
+  .cta-content h2 {
+    font-size: 1.75rem;
+  }
+  
+  .cta-content p {
+    font-size: 1.125rem;
+  }
 }
 
 @media (max-width: $breakpoint-sm) {
@@ -172,6 +232,18 @@ import RequestsIcon from '@/components/icons/RequestsIcon.vue'
   .item-card {
     padding: $p-4;
     min-width: 250px;
+  }
+  
+  .cta-section {
+    padding: $p-4;
+  }
+  
+  .cta-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .cta-content p {
+    font-size: 1rem;
   }
 }
 </style> 
