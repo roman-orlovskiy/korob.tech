@@ -1,5 +1,5 @@
 // Глобальные SCSS переменные и миксины
-@import './variables.scss';
+@use './variables.scss' as *;
 
 // Глобальные миксины
 @mixin flex-center {
@@ -31,4 +31,89 @@
   } @else if $breakpoint == xl {
     @media (min-width: $breakpoint-xl) { @content; }
   }
-} 
+}
+
+// Глобальные стили
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family-primary;
+  color: $text-primary;
+  background-color: $bg-primary;
+  line-height: 1.6;
+}
+
+// Утилитарные классы
+.container {
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  
+  @include responsive(md) {
+    padding: 0 2.5rem;
+  }
+}
+
+.btn {
+  @include button-style;
+  
+  &--primary {
+    background-color: $primary-color;
+    color: $text-light;
+    
+    &:hover {
+      background-color: $primary-dark;
+    }
+  }
+  
+  &--secondary {
+    background-color: $secondary-color;
+    color: $text-light;
+    
+    &:hover {
+      background-color: $secondary-dark;
+    }
+  }
+  
+  &--success {
+    background-color: $success-color;
+    color: $text-light;
+  }
+  
+  &--warning {
+    background-color: $warning-color;
+    color: $text-primary;
+  }
+  
+  &--error {
+    background-color: $error-color;
+    color: $text-light;
+  }
+}
+
+.flex-center {
+  @include flex-center;
+}
+
+// Утилитарные классы для отступов
+.mt-1 { margin-top: $mt-1; }
+.mt-2 { margin-top: $mt-2; }
+.mt-3 { margin-top: $mt-3; }
+.mt-4 { margin-top: $mt-4; }
+.mt-5 { margin-top: $mt-5; }
+
+.mb-1 { margin-bottom: $mb-1; }
+.mb-2 { margin-bottom: $mb-2; }
+.mb-3 { margin-bottom: $mb-3; }
+.mb-4 { margin-bottom: $mb-4; }
+.mb-5 { margin-bottom: $mb-5; }
+
+.p-1 { padding: $p-1; }
+.p-2 { padding: $p-2; }
+.p-3 { padding: $p-3; }
+.p-4 { padding: $p-4; }
+.p-5 { padding: $p-5; } 

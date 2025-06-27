@@ -53,7 +53,7 @@ const openTelegram = () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/variables.scss';
+@use '@/assets/variables.scss' as *;
 
 .home {
   padding: $p-4;

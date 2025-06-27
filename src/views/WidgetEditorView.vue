@@ -12,7 +12,7 @@
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/variables.scss';
+@use '@/assets/variables.scss' as *;
 
 .widget-editor {
   padding: $p-4;

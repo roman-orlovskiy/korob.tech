@@ -25,7 +25,7 @@
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/variables.scss';
+@use '@/assets/variables.scss' as *;
 
 .contacts {
   padding: $p-4;

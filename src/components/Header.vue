@@ -57,7 +57,7 @@ const closeMenu = () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/variables.scss';
+@use '@/assets/variables.scss' as *;
 
 .header {
   background: rgba($bg-primary, 0.95);
