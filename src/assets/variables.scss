@@ -1,0 +1,74 @@
+// Цветовая палитра
+$primary-color: #42b883;
+$primary-light: #64d4a4;
+$primary-dark: #369870;
+
+$secondary-color: #35495e;
+$secondary-light: #5a6c7e;
+$secondary-dark: #2c3e50;
+
+$accent-color: #ff6b6b;
+$success-color: #51cf66;
+$warning-color: #ffd43b;
+$error-color: #ff6b6b;
+
+// Текстовые цвета
+$text-primary: #2c3e50;
+$text-secondary: #6c757d;
+$text-muted: #adb5bd;
+$text-light: #ffffff;
+
+// Фоновые цвета
+$bg-primary: #ffffff;
+$bg-secondary: #f8f9fa;
+$bg-dark: #343a40;
+
+// Размеры
+$border-radius: 4px;
+$border-radius-lg: 8px;
+$border-radius-xl: 12px;
+
+// Отступы
+$p-1: 0.25rem;
+$p-2: 0.5rem;
+$p-3: 1rem;
+$p-4: 1.5rem;
+$p-5: 3rem;
+
+$m-1: 0.25rem;
+$m-2: 0.5rem;
+$m-3: 1rem;
+$m-4: 1.5rem;
+$m-5: 3rem;
+
+$mt-1: 0.25rem;
+$mt-2: 0.5rem;
+$mt-3: 1rem;
+$mt-4: 1.5rem;
+$mt-5: 3rem;
+
+$mb-1: 0.25rem;
+$mb-2: 0.5rem;
+$mb-3: 1rem;
+$mb-4: 1.5rem;
+$mb-5: 3rem;
+
+// Тени
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+
+// Брейкпоинты
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Z-индексы
+$z-dropdown: 1000;
+$z-sticky: 1020;
+$z-fixed: 1030;
+$z-modal-backdrop: 1040;
+$z-modal: 1050;
+$z-popover: 1060;
+$z-tooltip: 1070; 

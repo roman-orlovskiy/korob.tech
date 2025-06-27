@@ -1,0 +1,124 @@
+@import './variables.scss';
+
+// Основные переменные
+$primary-color: #42b883;
+$secondary-color: #35495e;
+$text-color: #2c3e50;
+$background-color: #ffffff;
+
+// Миксины
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin button-style {
+  padding: 10px 20px;
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+}
+
+@mixin responsive($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) { @content; }
+  } @else if $breakpoint == md {
+    @media (min-width: $breakpoint-md) { @content; }
+  } @else if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) { @content; }
+  } @else if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) { @content; }
+  }
+}
+
+// Глобальные стили
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: $text-primary;
+  background-color: $bg-primary;
+  line-height: 1.6;
+}
+
+// Утилитарные классы
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  
+  @include responsive(md) {
+    padding: 0 40px;
+  }
+}
+
+.btn {
+  @include button-style;
+  
+  &--primary {
+    background-color: $primary-color;
+    color: $text-light;
+    
+    &:hover {
+      background-color: $primary-dark;
+    }
+  }
+  
+  &--secondary {
+    background-color: $secondary-color;
+    color: $text-light;
+    
+    &:hover {
+      background-color: $secondary-dark;
+    }
+  }
+  
+  &--success {
+    background-color: $success-color;
+    color: $text-light;
+  }
+  
+  &--warning {
+    background-color: $warning-color;
+    color: $text-primary;
+  }
+  
+  &--error {
+    background-color: $error-color;
+    color: $text-light;
+  }
+}
+
+.flex-center {
+  @include flex-center;
+}
+
+// Утилитарные классы для отступов
+.mt-1 { margin-top: $mt-1; }
+.mt-2 { margin-top: $mt-2; }
+.mt-3 { margin-top: $mt-3; }
+.mt-4 { margin-top: $mt-4; }
+.mt-5 { margin-top: $mt-5; }
+
+.mb-1 { margin-bottom: $mb-1; }
+.mb-2 { margin-bottom: $mb-2; }
+.mb-3 { margin-bottom: $mb-3; }
+.mb-4 { margin-bottom: $mb-4; }
+.mb-5 { margin-bottom: $mb-5; }
+
+.p-1 { padding: $p-1; }
+.p-2 { padding: $p-2; }
+.p-3 { padding: $p-3; }
+.p-4 { padding: $p-4; }
+.p-5 { padding: $p-5; } 
