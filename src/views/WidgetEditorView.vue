@@ -1,8 +1,8 @@
 <template>
   <div class="widget-editor">
-    <div class="container">
-      <h1>Виджет редактора</h1>
-      <p>Здесь будет размещен редактор виджетов.</p>
+    <div class="widget-editor__container">
+      <h1 class="widget-editor__title">Виджет редактора</h1>
+      <p class="widget-editor__description">Здесь будет размещен редактор виджетов.</p>
     </div>
   </div>
 </template>
@@ -16,25 +16,25 @@
 
 .widget-editor {
   padding: $p-4;
-}
 
-.container {
-  max-width: $breakpoint-xl;
-  margin: 0 auto;
-}
+  &__container {
+    max-width: $breakpoint-xl;
+    margin: 0 auto;
+  }
 
-h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: $text-primary;
-  margin-bottom: $mb-3;
-  font-family: $font-family-primary;
-}
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: $mb-3;
+    font-family: $font-family-primary;
+  }
 
-p {
-  font-size: 1.1rem;
-  color: $text-secondary;
-  line-height: 1.6;
-  font-family: $font-family-primary;
+  &__description {
+    font-size: 1.1rem;
+    color: $text-secondary;
+    line-height: 1.6;
+    font-family: $font-family-primary;
+  }
 }
 </style> 

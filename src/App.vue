@@ -6,21 +6,23 @@ import Footer from './components/Footer.vue'
 <template>
   <div class="app">
     <Header />
-    <main class="main-content">
+    <main class="app__content">
       <router-view />
     </main>
     <Footer />
   </div>
 </template>
 
-<style>
+<style lang="scss">
+@use '@/assets/variables.scss' as *;
+
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
 
-.main-content {
-  flex: 1;
+  &__content {
+    flex: 1;
+  }
 }
 </style>
