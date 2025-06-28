@@ -43,10 +43,10 @@
   color: $text-primary;
   box-shadow: $shadow-md;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
 
-.edit-icon:hover {
-  transform: scale(1.05);
-  box-shadow: $shadow-lg;
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: $shadow-lg;
+  }
 }
 </style> 
