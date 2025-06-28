@@ -28,6 +28,7 @@ defineEmits<{
 
 <style scoped lang="scss">
 @use '@/assets/variables.scss' as *;
+@use 'sass:color';
 
 .button {
   display: inline-flex;
@@ -77,7 +78,7 @@ defineEmits<{
     color: $text-primary;
     
     &:not(:disabled):hover {
-      background-color: darken($primary-color, 5%);
+      background-color: color.adjust($primary-color, $lightness: -5%);
       box-shadow: $shadow-md;
     }
   }

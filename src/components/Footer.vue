@@ -14,7 +14,9 @@
           </router-link>
         </nav>
         <div class="footer__logo">
-          КОРОБ © 2025
+          <router-link to="/" class="footer__logo-link">
+            КОРОБ © 2025
+          </router-link>
         </div>
       </div>
     </div>
@@ -75,6 +77,16 @@
     font-family: $font-family-primary;
     font-size: 1.125rem;
     letter-spacing: 0.05em;
+  }
+
+  &__logo-link {
+    color: $text-light;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: $primary-color;
+    }
   }
 
   @media (max-width: $breakpoint-sm) {

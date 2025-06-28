@@ -6,7 +6,7 @@
       </div>
       
       <div class="home__cards-container">
-        <div class="home__item-card">
+        <router-link to="/widget-editor" class="home__item-card home__item-card--link">
           <div class="home__card-content">
             <EditIcon />
             <div class="home__card-text">
@@ -14,7 +14,7 @@
               <p>Мощный инструмент для управления контентом сайта</p>
             </div>
           </div>
-        </div>
+        </router-link>
 
         <div class="home__item-card home__item-card--development">
           <div class="home__card-content">
@@ -110,6 +110,12 @@ const openTelegram = () => {
         transform: none;
         box-shadow: $shadow-lg;
       }
+    }
+
+    &--link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
     }
   }
 

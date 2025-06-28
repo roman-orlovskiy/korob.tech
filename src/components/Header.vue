@@ -89,9 +89,16 @@ const closeMenu = () => {
   &__logo-link {
     text-decoration: none;
     color: inherit;
+    transition: color 0.2s ease;
+
+    h1 {
+      transition: color 0.2s ease;
+    }
     
     &:hover {
-      color: $text-primary;
+      h1 {
+        color: $primary-dark;
+      }
     }
   }
 
