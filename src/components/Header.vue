@@ -3,7 +3,9 @@
     <div class="header__container">
       <!-- Логотип -->
       <div class="header__logo">
-        <h1>КОРОБ</h1>
+        <router-link to="/" class="header__logo-link">
+          <h1>КОРОБ</h1>
+        </router-link>
       </div>
 
       <!-- Бургер-меню -->
@@ -82,6 +84,15 @@ const closeMenu = () => {
     margin: 0;
     letter-spacing: 0.1em;
     font-family: $font-family-primary;
+  }
+
+  &__logo-link {
+    text-decoration: none;
+    color: inherit;
+    
+    &:hover {
+      color: $text-primary;
+    }
   }
 
   &__burger-button {
