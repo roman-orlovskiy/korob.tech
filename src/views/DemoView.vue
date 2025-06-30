@@ -2,9 +2,9 @@
   <div class="demo">
     <div class="demo__container">
       <header class="demo__header">
-        <h1 class="demo__title">Демо текстового редактора</h1>
+        <h1 class="demo__title">Демо минимального виджета</h1>
         <p class="demo__description">
-          Кликайте по любому тексту ниже, чтобы отредактировать его. Изменения сохраняются автоматически.
+          Кликайте по любому тексту ниже, чтобы отредактировать его. Используется только один JavaScript файл.
         </p>
       </header>
 
@@ -13,18 +13,10 @@
         <section class="demo__section">
           <h2 class="demo__section-title">Статический HTML</h2>
           <div class="demo__example">
-            <h3 
-              data-widget="editable" 
-              data-editor-key="static-title"
-              data-editor-type="title"
-            >
+            <h3 data-widget="static-title">
               Заголовок страницы
             </h3>
-            <p 
-              data-widget="editable" 
-              data-editor-key="static-content"
-              data-editor-type="content"
-            >
+            <p data-widget="static-content">
               Это пример статического HTML контента, который можно редактировать прямо на странице. 
               Просто кликните по любому тексту и начните печатать.
             </p>
@@ -35,18 +27,10 @@
         <section class="demo__section">
           <h2 class="demo__section-title">Vue реактивный контент</h2>
           <div class="demo__example">
-            <h3 
-              data-widget="editable" 
-              data-editor-key="vue-title"
-              data-editor-type="title"
-            >
+            <h3 data-widget="vue-title">
               {{ vueTitle }}
             </h3>
-            <p 
-              data-widget="editable" 
-              data-editor-key="vue-content"
-              data-editor-type="content"
-            >
+            <p data-widget="vue-content">
               {{ vueContent }}
             </p>
             <div class="demo__controls">
@@ -64,18 +48,10 @@
               <button @click="removeDynamicContent" class="demo__btn demo__btn--secondary">Удалить блок</button>
             </div>
             <div v-for="(block, index) in dynamicBlocks" :key="index" class="demo__dynamic-block">
-              <h4 
-                data-widget="editable" 
-                :data-editor-key="`dynamic-title-${index}`"
-                data-editor-type="title"
-              >
+              <h4 :data-widget="`dynamic-title-${index}`">
                 {{ block.title }}
               </h4>
-              <p 
-                data-widget="editable" 
-                :data-editor-key="`dynamic-content-${index}`"
-                data-editor-type="content"
-              >
+              <p :data-widget="`dynamic-content-${index}`">
                 {{ block.content }}
               </p>
             </div>
@@ -87,11 +63,11 @@
           <h2 class="demo__section-title">Панель управления</h2>
           <div class="demo__controls-panel">
             <div class="demo__control-group">
-              <h3>Все ключи редактора:</h3>
+              <h3>Все ключи виджета:</h3>
               <ul class="demo__keys-list">
-                <li v-for="key in editorKeys" :key="key" class="demo__key-item">
+                <li v-for="key in widgetKeys" :key="key" class="demo__key-item">
                   <span class="demo__key-name">{{ key }}</span>
-                  <span class="demo__key-value">{{ getEditorText(key) }}</span>
+                  <span class="demo__key-value">{{ getWidgetText(key) }}</span>
                 </li>
               </ul>
             </div>
@@ -112,11 +88,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { TextEditor, type EditorConfig } from '@/core/TextEditor'
 
 // Состояние Vue контента
 const vueTitle = ref('Vue реактивный заголовок')
-const vueContent = ref('Этот контент управляется Vue реактивностью. Изменения в редакторе будут синхронизированы с Vue состоянием.')
+const vueContent = ref('Этот контент управляется Vue реактивностью. Изменения в виджете будут синхронизированы с Vue состоянием.')
 
 // Динамические блоки
 const dynamicBlocks = ref([
@@ -124,48 +99,49 @@ const dynamicBlocks = ref([
   { title: 'Динамический блок 2', content: 'Содержимое второго динамического блока.' }
 ])
 
-// Ключи редактора
-const editorKeys = ref<string[]>([])
-const editor = ref<TextEditor | null>(null)
+// Ключи виджета
+const widgetKeys = ref<string[]>([])
 
-// Инициализация редактора
+// Инициализация виджета
 onMounted(() => {
-  const config: EditorConfig = {
-    selector: '[data-widget="editable"]',
-    dataKey: 'data-editor-key',
-    autoSave: true,
-    saveDelay: 1000,
-    onSave: (key: string, value: string) => {
-      console.log(`Сохранено: ${key} = ${value}`)
-      // Здесь можно отправить данные на сервер
-    },
-    onEdit: (key: string, value: string) => {
-      console.log(`Редактируется: ${key} = ${value}`)
-      // Синхронизация с Vue состоянием
-      if (key === 'vue-title') {
-        vueTitle.value = value
-      } else if (key === 'vue-content') {
-        vueContent.value = value
+  // Проверяем, что виджет загружен
+  if (window.WidgetEditor) {
+    // Инициализируем с кастомной конфигурацией
+    window.WidgetEditor.init({
+      autoSave: true,
+      saveDelay: 1000,
+      onSave: (key: string, value: string) => {
+        console.log(`Сохранено: ${key} = ${value}`)
+        // Синхронизация с Vue состоянием
+        if (key === 'vue-title') {
+          vueTitle.value = value
+        } else if (key === 'vue-content') {
+          vueContent.value = value
+        }
+      },
+      onEdit: (key: string, value: string) => {
+        console.log(`Редактируется: ${key} = ${value}`)
       }
-    }
+    })
+
+    // Обновляем список ключей
+    updateWidgetKeys()
+  } else {
+    console.error('Виджет не загружен!')
   }
-
-  editor.value = new TextEditor(config)
-  editor.value.init()
-
-  // Обновляем список ключей
-  updateEditorKeys()
 })
 
 // Очистка при размонтировании
 onUnmounted(() => {
-  editor.value?.destroy()
+  if (window.WidgetEditor) {
+    window.WidgetEditor.destroy()
+  }
 })
 
 // Методы
 const resetVueContent = () => {
   vueTitle.value = 'Vue реактивный заголовок'
-  vueContent.value = 'Этот контент управляется Vue реактивностью. Изменения в редакторе будут синхронизированы с Vue состоянием.'
+  vueContent.value = 'Этот контент управляется Vue реактивностью. Изменения в виджете будут синхронизированы с Vue состоянием.'
 }
 
 const addDynamicContent = () => {
@@ -176,33 +152,33 @@ const addDynamicContent = () => {
   })
   
   // Даем время Vue для рендеринга, затем обновляем ключи
-  setTimeout(updateEditorKeys, 100)
+  setTimeout(updateWidgetKeys, 100)
 }
 
 const removeDynamicContent = () => {
   if (dynamicBlocks.value.length > 0) {
     dynamicBlocks.value.pop()
-    setTimeout(updateEditorKeys, 100)
+    setTimeout(updateWidgetKeys, 100)
   }
 }
 
-const updateEditorKeys = () => {
-  if (editor.value) {
-    editorKeys.value = editor.value.getKeys()
+const updateWidgetKeys = () => {
+  if (window.WidgetEditor) {
+    widgetKeys.value = window.WidgetEditor.getKeys()
   }
 }
 
-const getEditorText = (key: string) => {
-  return editor.value?.getText(key) || ''
+const getWidgetText = (key: string) => {
+  return window.WidgetEditor?.getText(key) || ''
 }
 
 const saveAllChanges = () => {
-  if (editor.value) {
-    const keys = editor.value.getKeys()
+  if (window.WidgetEditor) {
+    const keys = window.WidgetEditor.getKeys()
     const data: Record<string, string> = {}
     
     keys.forEach(key => {
-      const text = editor.value?.getText(key)
+      const text = window.WidgetEditor?.getText(key)
       if (text) {
         data[key] = text
       }
@@ -214,12 +190,12 @@ const saveAllChanges = () => {
 }
 
 const exportData = () => {
-  if (editor.value) {
-    const keys = editor.value.getKeys()
+  if (window.WidgetEditor) {
+    const keys = window.WidgetEditor.getKeys()
     const data: Record<string, string> = {}
     
     keys.forEach(key => {
-      const text = editor.value?.getText(key)
+      const text = window.WidgetEditor?.getText(key)
       if (text) {
         data[key] = text
       }
@@ -231,10 +207,23 @@ const exportData = () => {
     
     const a = document.createElement('a')
     a.href = url
-    a.download = 'editor-data.json'
+    a.download = 'widget-data.json'
     a.click()
     
     URL.revokeObjectURL(url)
+  }
+}
+
+// Типы для TypeScript
+declare global {
+  interface Window {
+    WidgetEditor: {
+      init: (config?: any) => void
+      setText: (key: string, text: string) => void
+      getText: (key: string) => string | null
+      getKeys: () => string[]
+      destroy: () => void
+    }
   }
 }
 </script>
