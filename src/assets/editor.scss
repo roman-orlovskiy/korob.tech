@@ -1,0 +1,178 @@
+// Стили для универсального текстового редактора
+@use 'variables.scss' as *;
+
+.widget-editable {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  
+  &:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+    outline: 2px dashed rgba(59, 130, 246, 0.3);
+    outline-offset: 2px;
+  }
+  
+  &::before {
+    content: '✏️';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 12px;
+    background: white;
+    border-radius: 50%;
+    padding: 2px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+  }
+  
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+.widget-editing {
+  background-color: rgba(59, 130, 246, 0.05) !important;
+  outline: 2px solid rgba(59, 130, 246, 0.5) !important;
+  outline-offset: 2px;
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  
+  &:focus {
+    outline: 2px solid rgba(59, 130, 246, 0.8) !important;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+  }
+  
+  &::before {
+    display: none;
+  }
+}
+
+// Индикатор сохранения
+.widget-saving {
+  position: relative;
+  
+  &::after {
+    content: '💾';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 12px;
+    background: white;
+    border-radius: 50%;
+    padding: 2px;
+    animation: pulse 1s infinite;
+    z-index: 10;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+// Темная тема
+@media (prefers-color-scheme: dark) {
+  .widget-editable {
+    &:hover {
+      background-color: rgba(59, 130, 246, 0.2);
+      outline-color: rgba(59, 130, 246, 0.5);
+    }
+  }
+  
+  .widget-editing {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    outline-color: rgba(59, 130, 246, 0.6) !important;
+    
+    &:focus {
+      outline-color: rgba(59, 130, 246, 0.9) !important;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+    }
+  }
+  
+  .widget-editable::before,
+  .widget-saving::after {
+    background: #1f2937;
+    color: white;
+  }
+}
+
+// Адаптивность
+@media (max-width: 768px) {
+  .widget-editable {
+    &:hover {
+      outline-width: 1px;
+      outline-offset: 1px;
+    }
+    
+    &::before {
+      font-size: 10px;
+      top: -6px;
+      right: -6px;
+    }
+  }
+  
+  .widget-editing {
+    outline-width: 1px !important;
+    outline-offset: 1px;
+    padding: 2px 4px;
+    margin: -2px -4px;
+  }
+}
+
+// Состояния для разных типов контента
+.widget-editable[data-editor-type="title"] {
+  &:hover {
+    background-color: rgba(16, 185, 129, 0.1);
+    outline-color: rgba(16, 185, 129, 0.3);
+  }
+  
+  &.widget-editing {
+    outline-color: rgba(16, 185, 129, 0.5) !important;
+    
+    &:focus {
+      outline-color: rgba(16, 185, 129, 0.8) !important;
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+    }
+  }
+}
+
+.widget-editable[data-editor-type="content"] {
+  &:hover {
+    background-color: rgba(245, 158, 11, 0.1);
+    outline-color: rgba(245, 158, 11, 0.3);
+  }
+  
+  &.widget-editing {
+    outline-color: rgba(245, 158, 11, 0.5) !important;
+    
+    &:focus {
+      outline-color: rgba(245, 158, 11, 0.8) !important;
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+    }
+  }
+}
+
+// Анимации появления
+.widget-editable {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 
