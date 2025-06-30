@@ -20,6 +20,7 @@
   const elements = new Map();
   let observer = null;
   let saveTimeout = null;
+  let modal = null;
 
   // Генерация уникального ID
   function generateId() {
@@ -33,191 +34,305 @@
     const style = document.createElement('style');
     style.id = 'widget-editor-styles';
     style.textContent = `
-      [data-widget] {
-        position: relative;
+      .widget-circle {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        background: #f1df6f;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: auto;
+        box-shadow: 0 2px 8px rgba(241, 223, 111, 0.3);
+        z-index: 10;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      
+      .widget-circle:hover {
+        transform: translate(-50%, -50%) scale(1.2);
+        box-shadow: 0 6px 16px rgba(241, 223, 111, 0.5);
+      }
+      
+      .widget-circle::before {
+        content: '✏️';
+        font-size: 12px;
+        transition: all 0.3s ease;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+      }
+      
+      .widget-circle:hover::before {
+        transform: scale(1.1);
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      }
+      
+      /* Модальное окно */
+      .widget-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+      
+      .widget-modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .widget-modal-content {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        transform: scale(0.8);
+        transition: all 0.3s ease;
+      }
+      
+      .widget-modal.active .widget-modal-content {
+        transform: scale(1);
+      }
+      
+      .widget-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      
+      .widget-modal-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 0;
+      }
+      
+      .widget-modal-close {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #6b7280;
+        padding: 4px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+      }
+      
+      .widget-modal-close:hover {
+        background: #f3f4f6;
+        color: #374151;
+      }
+      
+      .widget-modal-textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 12px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1.5;
+        resize: vertical;
+        transition: border-color 0.2s ease;
+        font-family: inherit;
+      }
+      
+      .widget-modal-textarea:focus {
+        outline: none;
+        border-color: #f1df6f;
+        box-shadow: 0 0 0 3px rgba(241, 223, 111, 0.1);
+      }
+      
+      .widget-modal-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        margin-top: 16px;
+      }
+      
+      .widget-modal-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
         cursor: pointer;
         transition: all 0.2s ease;
-        border-radius: 4px;
       }
       
-      [data-widget]:hover {
-        background-color: rgba(59, 130, 246, 0.1);
-        outline: 2px dashed rgba(59, 130, 246, 0.3);
-        outline-offset: 2px;
+      .widget-modal-btn--cancel {
+        background: #f3f4f6;
+        color: #374151;
       }
       
-      [data-widget]:hover::before {
-        content: '✏️';
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        font-size: 12px;
-        background: white;
-        border-radius: 50%;
-        padding: 2px;
-        opacity: 1;
-        z-index: 10;
+      .widget-modal-btn--cancel:hover {
+        background: #e5e7eb;
       }
       
-      [data-widget]::before {
-        content: '✏️';
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        font-size: 12px;
-        background: white;
-        border-radius: 50%;
-        padding: 2px;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-        z-index: 10;
+      .widget-modal-btn--save {
+        background: #f1df6f;
+        color: #1f2937;
       }
       
-      [data-widget].editing {
-        background-color: rgba(59, 130, 246, 0.05) !important;
-        outline: 2px solid rgba(59, 130, 246, 0.5) !important;
-        outline-offset: 2px;
-        border-radius: 4px;
-        padding: 4px 8px;
-        margin: -4px -8px;
-      }
-      
-      [data-widget].editing:focus {
-        outline: 2px solid rgba(59, 130, 246, 0.8) !important;
-        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-      }
-      
-      [data-widget].editing::before {
-        display: none;
+      .widget-modal-btn--save:hover {
+        background: #e6d25a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(241, 223, 111, 0.3);
       }
       
       @media (prefers-color-scheme: dark) {
-        [data-widget]:hover {
-          background-color: rgba(59, 130, 246, 0.2);
-          outline-color: rgba(59, 130, 246, 0.5);
-        }
-        
-        [data-widget].editing {
-          background-color: rgba(59, 130, 246, 0.1) !important;
-          outline-color: rgba(59, 130, 246, 0.6) !important;
-        }
-        
-        [data-widget].editing:focus {
-          outline-color: rgba(59, 130, 246, 0.9) !important;
-          box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
-        }
-        
-        [data-widget]::before {
+        .widget-modal-content {
           background: #1f2937;
           color: white;
+        }
+        
+        .widget-modal-title {
+          color: white;
+        }
+        
+        .widget-modal-textarea {
+          background: #374151;
+          border-color: #4b5563;
+          color: white;
+        }
+        
+        .widget-modal-textarea:focus {
+          border-color: #f1df6f;
+        }
+        
+        .widget-modal-close {
+          color: #9ca3af;
+        }
+        
+        .widget-modal-close:hover {
+          background: #374151;
+          color: white;
+        }
+        
+        .widget-modal-btn--cancel {
+          background: #374151;
+          color: white;
+        }
+        
+        .widget-modal-btn--cancel:hover {
+          background: #4b5563;
         }
       }
     `;
     document.head.appendChild(style);
   }
 
-  // Инициализация элемента
-  function initElement(element) {
-    const key = element.getAttribute('data-widget');
-    if (!key || elements.has(key)) return;
+  // Создание модального окна
+  function createModal() {
+    if (modal) return modal;
 
-    const originalText = element.textContent || '';
-    
-    elements.set(key, {
-      element: element,
-      key: key,
-      originalText: originalText,
-      isEditing: false
-    });
+    modal = document.createElement('div');
+    modal.className = 'widget-modal';
+    modal.innerHTML = `
+      <div class="widget-modal-content">
+        <div class="widget-modal-header">
+          <h3 class="widget-modal-title">Редактировать текст</h3>
+          <button class="widget-modal-close">&times;</button>
+        </div>
+        <textarea class="widget-modal-textarea" placeholder="Введите текст..."></textarea>
+        <div class="widget-modal-actions">
+          <button class="widget-modal-btn widget-modal-btn--cancel">Отмена</button>
+          <button class="widget-modal-btn widget-modal-btn--save">Сохранить</button>
+        </div>
+      </div>
+    `;
 
-    // Добавляем обработчики
-    element.addEventListener('click', (e) => {
-      e.preventDefault();
-      startEditing(key);
-    });
+    document.body.appendChild(modal);
 
-    element.addEventListener('dblclick', (e) => {
-      e.preventDefault();
-      startEditing(key);
-    });
-  }
+    // Обработчики модального окна
+    const closeBtn = modal.querySelector('.widget-modal-close');
+    const cancelBtn = modal.querySelector('.widget-modal-btn--cancel');
+    const saveBtn = modal.querySelector('.widget-modal-btn--save');
+    const textarea = modal.querySelector('.widget-modal-textarea');
 
-  // Начало редактирования
-  function startEditing(key) {
-    const item = elements.get(key);
-    if (!item || item.isEditing) return;
+    const closeModal = () => {
+      modal.classList.remove('active');
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 300);
+    };
 
-    item.isEditing = true;
-    item.element.setAttribute('contenteditable', 'true');
-    item.element.classList.add('editing');
-    item.element.focus();
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
 
-    // Выделяем весь текст
-    const range = document.createRange();
-    range.selectNodeContents(item.element);
-    const selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    // Добавляем обработчики завершения
-    const finishEditing = () => finishEditing(key);
-    const handleKeyDown = (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        finishEditing();
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
       }
+    });
+
+    // Обработка сохранения
+    saveBtn.addEventListener('click', () => {
+      const currentKey = modal.dataset.currentKey;
+      const newText = textarea.value;
+      
+      if (currentKey && elements.has(currentKey)) {
+        const item = elements.get(currentKey);
+        item.element.textContent = newText;
+        item.originalText = newText;
+        
+        if (config.onEdit) {
+          config.onEdit(currentKey, newText);
+        }
+        
+        if (config.autoSave) {
+          scheduleSave(currentKey, newText);
+        }
+      }
+      
+      closeModal();
+    });
+
+    // Обработка клавиш
+    textarea.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        e.preventDefault();
-        cancelEditing(key);
+        closeModal();
       }
-    };
-    const handleBlur = () => {
-      setTimeout(() => finishEditing(), 100);
-    };
+      if (e.key === 'Enter' && e.ctrlKey) {
+        saveBtn.click();
+      }
+    });
 
-    item.element.addEventListener('keydown', handleKeyDown);
-    item.element.addEventListener('blur', handleBlur);
-
-    // Сохраняем обработчики для удаления
-    item.element._editingListeners = { handleKeyDown, handleBlur };
+    return modal;
   }
 
-  // Завершение редактирования
-  function finishEditing(key) {
+  // Открытие модального окна
+  function openModal(key) {
     const item = elements.get(key);
-    if (!item || !item.isEditing) return;
+    if (!item) return;
 
-    const newText = item.element.textContent || '';
+    const modal = createModal();
+    const textarea = modal.querySelector('.widget-modal-textarea');
     
-    // Удаляем обработчики
-    if (item.element._editingListeners) {
-      item.element.removeEventListener('keydown', item.element._editingListeners.handleKeyDown);
-      item.element.removeEventListener('blur', item.element._editingListeners.handleBlur);
-      delete item.element._editingListeners;
-    }
-
-    // Восстанавливаем состояние
-    item.element.setAttribute('contenteditable', 'false');
-    item.element.classList.remove('editing');
-    item.isEditing = false;
-
-    // Вызываем колбэки
-    if (config.onEdit) {
-      config.onEdit(key, newText);
-    }
-
-    if (config.autoSave && newText !== item.originalText) {
-      scheduleSave(key, newText);
-    }
-  }
-
-  // Отмена редактирования
-  function cancelEditing(key) {
-    const item = elements.get(key);
-    if (!item || !item.isEditing) return;
-
-    item.element.textContent = item.originalText;
-    finishEditing(key);
+    modal.dataset.currentKey = key;
+    textarea.value = item.element.textContent || '';
+    
+    modal.style.display = 'flex';
+    setTimeout(() => {
+      modal.classList.add('active');
+      textarea.focus();
+      textarea.select();
+    }, 10);
   }
 
   // Планирование сохранения
@@ -232,6 +347,34 @@
       }
       saveTimeout = null;
     }, config.saveDelay);
+  }
+
+  // Инициализация элемента
+  function initElement(element) {
+    const key = element.getAttribute('data-widget');
+    if (!key || elements.has(key)) return;
+
+    const originalText = element.textContent || '';
+    
+    // Создаем круг и добавляем его прямо в элемент
+    const circle = document.createElement('div');
+    circle.className = 'widget-circle';
+    circle.setAttribute('data-widget-circle', key);
+    element.appendChild(circle);
+    
+    elements.set(key, {
+      element: element,
+      key: key,
+      originalText: originalText,
+      circle: circle
+    });
+
+    // Добавляем обработчик клика на круг
+    circle.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openModal(key);
+    });
   }
 
   // Сканирование DOM
@@ -271,21 +414,6 @@
     });
   }
 
-  // Глобальные обработчики
-  function attachGlobalListeners() {
-    document.addEventListener('click', (e) => {
-      const target = e.target;
-      if (!target.closest(config.selector)) {
-        // Завершаем все активные редактирования
-        elements.forEach((item, key) => {
-          if (item.isEditing) {
-            finishEditing(key);
-          }
-        });
-      }
-    });
-  }
-
   // Инициализация
   function init(userConfig = {}) {
     // Объединяем конфигурацию
@@ -299,9 +427,6 @@
     
     // Наблюдаем за изменениями
     observeDOM();
-    
-    // Привязываем глобальные обработчики
-    attachGlobalListeners();
   }
 
   // API для внешнего использования
@@ -328,6 +453,16 @@
       if (saveTimeout) {
         clearTimeout(saveTimeout);
       }
+      if (modal) {
+        modal.remove();
+        modal = null;
+      }
+      // Удаляем все круги
+      elements.forEach((item, key) => {
+        if (item.circle && item.circle.parentNode) {
+          item.circle.parentNode.removeChild(item.circle);
+        }
+      });
       elements.clear();
     }
   };
