@@ -11,7 +11,7 @@
             Мощный виджет для мгновенного редактирования текста, изображений и контента на любом сайте
           </p>
           <div class="widget-editor__hero-buttons">
-            <button class="widget-editor__btn widget-editor__btn--primary">Попробовать бесплатно</button>
+            <router-link to="/demo" class="widget-editor__btn widget-editor__btn--primary">Попробовать бесплатно</router-link>
             <button class="widget-editor__btn widget-editor__btn--secondary">Документация</button>
           </div>
         </div>
@@ -154,9 +154,9 @@
           <p class="widget-editor__cta-description">
             Подключите виджет за 5 минут и получите полный контроль над контентом вашего сайта
           </p>
-          <button class="widget-editor__btn widget-editor__btn--primary widget-editor__btn--large">
+          <router-link to="/demo" class="widget-editor__btn widget-editor__btn--primary widget-editor__btn--large">
             Начать бесплатно
-          </button>
+          </router-link>
         </div>
       </section>
     </div>
