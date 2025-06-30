@@ -111,7 +111,7 @@
               <h3 class="widget-editor__example-title">Vue.js</h3>
             </div>
             <div class="widget-editor__example-content">
-              <pre class="widget-editor__example-code"><code>&lt;template&gt;
+              <pre class="widget-editor__example-code" v-pre><code>&lt;template&gt;
   &lt;div data-widget="editable"&gt;
     {{ content }}
   &lt;/div&gt;
