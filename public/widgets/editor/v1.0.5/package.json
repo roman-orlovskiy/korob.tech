@@ -1,0 +1,20 @@
+{
+  "name": "korob-widget-editor",
+  "version": "1.0.5",
+  "description": "Универсальный текстовый редактор для сайтов",
+  "main": "widget.js",
+  "keywords": [
+    "widget",
+    "editor",
+    "text",
+    "content",
+    "inline-editing"
+  ],
+  "author": "КОРОБ",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/korob-tech/widgets"
+  },
+  "homepage": "https://korob.tech"
+} 

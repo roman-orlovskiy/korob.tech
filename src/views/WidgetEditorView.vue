@@ -8,7 +8,7 @@
             Редактируйте контент сайта <span class="widget-editor__hero-accent">без разработчиков</span>
           </h1>
           <p class="widget-editor__hero-description">
-            Мощный виджет для мгновенного редактирования текста, изображений и контента на любом сайте
+            Мощный виджет для мгновенного редактирования текста на любом сайте
           </p>
           <div class="widget-editor__hero-buttons">
             <router-link to="/demo" class="widget-editor__btn widget-editor__btn--primary">Попробовать бесплатно</router-link>
