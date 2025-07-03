@@ -26,7 +26,7 @@
                 </router-link>
               </li>
               <li class="header__nav-item">
-                <router-link to="/demo" class="header__nav-link" @click="closeMenu">
+                <router-link to="/widget-editor" class="header__nav-link" @click="closeMenu">
                   КОРОБ. Редактор
                 </router-link>
               </li>

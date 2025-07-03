@@ -6,7 +6,7 @@
       </div>
       
       <div class="home__cards-container">
-        <router-link to="/demo" class="home__item-card home__item-card--link">
+        <router-link to="/widget-editor" class="home__item-card home__item-card--link">
           <div class="home__card-content">
             <EditIcon />
             <div class="home__card-text">
