@@ -24,13 +24,13 @@
             </div>
             <pre class="widget-editor__code-content"><code>&lt;script src="https://korob.tech/widgets/editor/v1.0.5/widget.js"&gt;<br>&lt;/script&gt;
 &lt;div data-widget="Мой ключ"&gt;
-  <i>Изначальный</i> <b>контент</b>, который можно изменить
+  {{ contentData }}
 &lt;/div&gt;</code></pre>
             <div class="widget-editor__live-demo">
               <h3>Живой пример:</h3>
               <div
                 data-widget="Мой ключ" class="widget-editor__editable-text"
-                v-html="'<i>Изначальный</i> <b>контент</b>, который можно изменить'"
+                v-html="contentData"
               />
             </div>
           </div>
@@ -171,6 +171,21 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+
+const contentData = ref('<i>Изначальный</i> <b>контент</b>, который можно изменить')
+
+// Callback функция для обработки изменений в виджете
+const handleContentChange = (key: string, value: string) => {
+  contentData.value = value
+  console.log(`Изменен элемент с ключом "${key}":`, value)
+}
+
+onMounted(() => {
+  if ((window as any).WidgetEditor) {
+      (window as any).WidgetEditor.onContentChange(handleContentChange)
+    }
+})
 </script>
 
 <style scoped lang="scss">
@@ -307,6 +322,34 @@
     line-height: 1.5;
     cursor: pointer;
     transition: all 0.3s ease;
+  }
+
+  &__changes {
+    margin-top: $p-3;
+    padding: $p-3;
+    background: $bg-secondary;
+    border-radius: $border-radius;
+    border: 1px solid $secondary-color;
+
+    h4 {
+      color: $text-primary;
+      margin-bottom: $mb-2;
+      font-family: $font-family-primary;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    pre {
+      background: $bg-dark;
+      color: $text-light;
+      padding: $p-2;
+      border-radius: $border-radius;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      overflow-x: auto;
+      margin: 0;
+    }
   }
 
   // Кнопки

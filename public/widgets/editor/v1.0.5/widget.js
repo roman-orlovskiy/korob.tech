@@ -652,6 +652,21 @@
     getKeys: () => {
       return Array.from(elements.keys());
     },
+    getChangedData: () => {
+      const changedData = {};
+      elements.forEach((item, key) => {
+        const currentContent = item.element.innerHTML;
+        if (currentContent !== item.originalText) {
+          changedData[key] = currentContent;
+        }
+      });
+      return changedData;
+    },
+    onContentChange: (callback) => {
+      if (typeof callback === 'function') {
+        config.onEdit = callback;
+      }
+    },
     updatePositions: updateAllCirclePositions,
     destroy: () => {
           if (observer) {
