@@ -19,9 +19,9 @@
   // Хранилище элементов
   const elements = new Map();
   let observer = null;
+  let resizeObserver = null;
   let saveTimeout = null;
   let modal = null;
-  let overlayContainer = null;
 
   // Генерация уникального ID
   function generateId() {
@@ -35,17 +35,6 @@
     const style = document.createElement('style');
     style.id = 'widget-editor-styles';
     style.textContent = `
-      .widget-overlay-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 9999;
-        overflow: hidden;
-      }
-      
       .widget-circle {
         position: absolute;
         width: 24px;
@@ -249,21 +238,7 @@
     document.head.appendChild(style);
   }
 
-  // Создание контейнера-оверлея
-  function createOverlayContainer() {
-    if (overlayContainer) return overlayContainer;
 
-    overlayContainer = document.createElement('div');
-    overlayContainer.className = 'widget-overlay-container';
-    
-    // Устанавливаем размеры контейнера равными размерам документа
-    overlayContainer.style.width = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) + 'px';
-    overlayContainer.style.height = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) + 'px';
-    
-    document.body.appendChild(overlayContainer);
-
-    return overlayContainer;
-  }
 
   // Получение позиции элемента относительно документа
   function getElementPosition(element) {
@@ -407,14 +382,11 @@
 
     const originalText = element.textContent || '';
     
-    // Создаем контейнер-оверлей если его нет
-    const container = createOverlayContainer();
-    
-    // Создаем круг и добавляем его в контейнер-оверлей
+    // Создаем круг и добавляем его прямо в body
     const circle = document.createElement('div');
     circle.className = 'widget-circle';
     circle.setAttribute('data-widget-circle', key);
-    container.appendChild(circle);
+    document.body.appendChild(circle);
     
     elements.set(key, {
       element: element,
@@ -426,12 +398,34 @@
     // Устанавливаем позицию круга
     updateCirclePosition(key);
 
+    // Добавляем элемент в ResizeObserver
+    if (resizeObserver) {
+      resizeObserver.observe(element);
+    }
+
     // Добавляем обработчик клика на круг
     circle.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
       openModal(key);
     });
+  }
+
+  // Удаление элемента
+  function removeElement(key) {
+    const item = elements.get(key);
+    if (item) {
+      // Удаляем элемент из ResizeObserver
+      if (resizeObserver && item.element) {
+        resizeObserver.unobserve(item.element);
+      }
+      
+      // Удаляем круг
+      if (item.circle && item.circle.parentNode) {
+        item.circle.parentNode.removeChild(item.circle);
+      }
+    }
+    elements.delete(key);
   }
 
   // Обновление позиций всех кругов
@@ -452,8 +446,11 @@
   // Наблюдение за изменениями DOM
   function observeDOM() {
     observer = new MutationObserver((mutations) => {
+      let needsRescan = false;
+      
       mutations.forEach((mutation) => {
         if (mutation.type === 'childList') {
+          // Проверяем добавленные узлы
           mutation.addedNodes.forEach((node) => {
             if (node.nodeType === Node.ELEMENT_NODE) {
               const element = node;
@@ -461,34 +458,107 @@
                 initElement(element);
               }
               const editableChildren = element.querySelectorAll && element.querySelectorAll(config.selector);
-              if (editableChildren) {
+              if (editableChildren && editableChildren.length > 0) {
                 editableChildren.forEach(child => {
                   initElement(child);
                 });
               }
             }
           });
+          
+          // Проверяем удаленные узлы
+          mutation.removedNodes.forEach((node) => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              const element = node;
+              if (element.matches && element.matches(config.selector)) {
+                const key = element.getAttribute('data-widget');
+                if (key && elements.has(key)) {
+                  removeElement(key);
+                }
+              }
+              const editableChildren = element.querySelectorAll && element.querySelectorAll(config.selector);
+              if (editableChildren && editableChildren.length > 0) {
+                editableChildren.forEach(child => {
+                  const key = child.getAttribute('data-widget');
+                  if (key && elements.has(key)) {
+                    removeElement(key);
+                  }
+                });
+              }
+            }
+          });
+          
+          needsRescan = true;
+        }
+        
+        // Проверяем изменения атрибутов
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-widget') {
+          const element = mutation.target;
+          const oldKey = mutation.oldValue;
+          const newKey = element.getAttribute('data-widget');
+          
+          if (oldKey && elements.has(oldKey)) {
+            removeElement(oldKey);
+          }
+          
+          if (newKey && element.matches(config.selector)) {
+            initElement(element);
+          }
+          
+          needsRescan = true;
         }
       });
+      
+      // Если были изменения, обновляем позиции
+      if (needsRescan) {
+        setTimeout(() => {
+          updateAllCirclePositions();
+        }, 10);
+      }
     });
 
     observer.observe(document.body, {
       childList: true,
-      subtree: true
+      subtree: true,
+      attributes: true,
+      attributeOldValue: true,
+      attributeFilter: ['data-widget']
     });
   }
 
-  // Обновление размеров контейнера
-  function updateContainerSize() {
-    if (overlayContainer) {
-      overlayContainer.style.width = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) + 'px';
-      overlayContainer.style.height = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) + 'px';
+
+
+  // Создание ResizeObserver для отслеживания изменений размера элементов
+  function createResizeObserver() {
+    if (resizeObserver) {
+      resizeObserver.disconnect();
     }
+
+    resizeObserver = new ResizeObserver((entries) => {
+      let needsUpdate = false;
+      
+      entries.forEach((entry) => {
+        const element = entry.target;
+        const key = element.getAttribute('data-widget');
+        
+        if (key && elements.has(key)) {
+          needsUpdate = true;
+        }
+      });
+      
+      if (needsUpdate) {
+        updateAllCirclePositions();
+      }
+    });
+
+    // Наблюдаем за всеми существующими элементами
+    elements.forEach((item) => {
+      resizeObserver.observe(item.element);
+    });
   }
 
   // Обработчик изменения размера окна и скролла
   function handleResizeAndScroll() {
-    updateContainerSize();
     updateAllCirclePositions();
   }
 
@@ -506,8 +576,8 @@
     // Наблюдаем за изменениями
     observeDOM();
     
-    // Обновляем размеры контейнера
-    updateContainerSize();
+    // Создаем ResizeObserver
+    createResizeObserver();
     
     // Добавляем обработчики событий
     window.addEventListener('resize', handleResizeAndScroll);
@@ -533,24 +603,24 @@
     },
     updatePositions: updateAllCirclePositions,
     destroy: () => {
-      if (observer) {
-        observer.disconnect();
-      }
-      if (saveTimeout) {
-        clearTimeout(saveTimeout);
-      }
-      if (modal) {
-        modal.remove();
-        modal = null;
-      }
-      if (overlayContainer) {
-        overlayContainer.remove();
-        overlayContainer = null;
-      }
-      // Удаляем обработчики событий
-      window.removeEventListener('resize', handleResizeAndScroll);
-      window.removeEventListener('scroll', handleResizeAndScroll);
-      elements.clear();
+          if (observer) {
+      observer.disconnect();
+    }
+    if (resizeObserver) {
+      resizeObserver.disconnect();
+    }
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+    }
+    if (modal) {
+      modal.remove();
+      modal = null;
+    }
+
+    // Удаляем обработчики событий
+    window.removeEventListener('resize', handleResizeAndScroll);
+    window.removeEventListener('scroll', handleResizeAndScroll);
+    elements.clear();
     }
   };
 
