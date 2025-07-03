@@ -23,8 +23,8 @@
               <span class="widget-editor__code-dot widget-editor__code-dot--green"></span>
             </div>
             <pre class="widget-editor__code-content"><code>&lt;script src="https://korob.tech/widgets/editor/v1.0.5/widget.js"&gt;<br>&lt;/script&gt;
-&lt;div data-widget="editable"&gt;
-  Ваш контент здесь
+&lt;div data-widget="Ключ элемента"&gt;
+  Изначальный контент, который можно изменить
 &lt;/div&gt;</code></pre>
           </div>
         </div>
