@@ -68,7 +68,7 @@
                 Описание карточки с полезной информацией, которую можно легко отредактировать.
               </p>
               <div class="demo__card-footer">
-                <span data-widget="card-price-1" class="demo__card-price">$99</span>
+                <span data-widget="card-price-1" class="demo__card-price">₽99</span>
                 <button class="demo__card-button">Купить</button>
               </div>
             </div>
@@ -78,7 +78,7 @@
                 Вторая карточка с другим контентом. Все тексты редактируются независимо.
               </p>
               <div class="demo__card-footer">
-                <span data-widget="card-price-2" class="demo__card-price">$149</span>
+                <span data-widget="card-price-2" class="demo__card-price">₽149</span>
                 <button class="demo__card-button">Заказать</button>
               </div>
             </div>
