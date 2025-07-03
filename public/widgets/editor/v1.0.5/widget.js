@@ -172,12 +172,12 @@
       
       .widget-modal-textarea {
         width: 100%;
-        min-height: 120px;
-        padding: 12px;
+        min-height: 200px;
+        padding: 16px;
         border: 2px solid #e5e7eb;
         border-radius: 8px;
-        font-size: 14px;
-        line-height: 1.5;
+        font-size: 16px;
+        line-height: 1.6;
         resize: vertical;
         transition: border-color 0.2s ease;
         font-family: inherit;
@@ -312,7 +312,7 @@
           <span class="widget-modal-key-label">Ключ элемента:</span>
           <span class="widget-modal-key-value"></span>
         </div>
-        <textarea class="widget-modal-textarea" placeholder="Введите текст..."></textarea>
+        <textarea class="widget-modal-textarea" placeholder="Введите текст или HTML разметку..."></textarea>
         <div class="widget-modal-actions">
           <button class="widget-modal-btn widget-modal-btn--cancel">Отмена</button>
           <button class="widget-modal-btn widget-modal-btn--save">Сохранить</button>
@@ -344,27 +344,27 @@
       }
     });
 
-    // Обработка сохранения
-    saveBtn.addEventListener('click', () => {
-      const currentKey = modal.dataset.currentKey;
-      const newText = textarea.value;
+      // Обработка сохранения
+  saveBtn.addEventListener('click', () => {
+    const currentKey = modal.dataset.currentKey;
+    const newContent = textarea.value;
+    
+    if (currentKey && elements.has(currentKey)) {
+      const item = elements.get(currentKey);
+      item.element.innerHTML = newContent;
+      item.originalText = newContent;
       
-      if (currentKey && elements.has(currentKey)) {
-        const item = elements.get(currentKey);
-        item.element.textContent = newText;
-        item.originalText = newText;
-        
-        if (config.onEdit) {
-          config.onEdit(currentKey, newText);
-        }
-        
-        if (config.autoSave) {
-          scheduleSave(currentKey, newText);
-        }
+      if (config.onEdit) {
+        config.onEdit(currentKey, newContent);
       }
       
-      closeModal();
-    });
+      if (config.autoSave) {
+        scheduleSave(currentKey, newContent);
+      }
+    }
+    
+    closeModal();
+  });
 
     // Обработка клавиш
     textarea.addEventListener('keydown', (e) => {
@@ -389,7 +389,7 @@
     const keyValue = modal.querySelector('.widget-modal-key-value');
     
     modal.dataset.currentKey = key;
-    textarea.value = item.element.textContent || '';
+    textarea.value = item.element.innerHTML || '';
     keyValue.textContent = key;
     
     modal.style.display = 'flex';
@@ -431,7 +431,7 @@
     const key = element.getAttribute('data-widget');
     if (!key || elements.has(key)) return;
 
-    const originalText = element.textContent || '';
+    const originalText = element.innerHTML || '';
     
     // Создаем круг и добавляем его прямо в body
     const circle = document.createElement('div');
@@ -641,13 +641,13 @@
     setText: (key, text) => {
       const item = elements.get(key);
       if (item) {
-        item.element.textContent = text;
+        item.element.innerHTML = text;
         item.originalText = text;
       }
     },
     getText: (key) => {
       const item = elements.get(key);
-      return item ? item.element.textContent : null;
+      return item ? item.element.innerHTML : null;
     },
     getKeys: () => {
       return Array.from(elements.keys());

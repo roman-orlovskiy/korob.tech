@@ -24,13 +24,14 @@
             </div>
             <pre class="widget-editor__code-content"><code>&lt;script src="https://korob.tech/widgets/editor/v1.0.5/widget.js"&gt;<br>&lt;/script&gt;
 &lt;div data-widget="Мой ключ"&gt;
-  Изначальный контент, который можно изменить
+  <i>Изначальный</i> <b>контент</b>, который можно изменить
 &lt;/div&gt;</code></pre>
             <div class="widget-editor__live-demo">
               <h3>Живой пример:</h3>
-              <div data-widget="Мой ключ" class="widget-editor__editable-text">
-                Изначальный контент, который можно изменить
-              </div>
+              <div
+                data-widget="Мой ключ" class="widget-editor__editable-text"
+                v-html="'<i>Изначальный</i> <b>контент</b>, который можно изменить'"
+              />
             </div>
           </div>
         </div>
@@ -170,18 +171,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-
-// Страница виджет редактора
-onMounted(() => {
-  // Подключаем виджет
-  const script = document.createElement('script')
-  script.src = 'https://korob.tech/widgets/editor/v1.0.5/widget.js'
-  script.onload = () => {
-    console.log('Виджет загружен и готов к использованию')
-  }
-  document.head.appendChild(script)
-})
 </script>
 
 <style scoped lang="scss">
