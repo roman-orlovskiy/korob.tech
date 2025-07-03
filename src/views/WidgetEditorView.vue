@@ -26,6 +26,12 @@
 &lt;div data-widget="Ключ элемента"&gt;
   Изначальный контент, который можно изменить
 &lt;/div&gt;</code></pre>
+            <div class="widget-editor__live-demo">
+              <h3>Живой пример:</h3>
+              <div data-widget="Ключ элемента" class="widget-editor__editable-text">
+                Изначальный контент, который можно изменить
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -164,7 +170,18 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
+
 // Страница виджет редактора
+onMounted(() => {
+  // Подключаем виджет
+  const script = document.createElement('script')
+  script.src = 'https://korob.tech/widgets/editor/v1.0.5/widget.js'
+  script.onload = () => {
+    console.log('Виджет загружен и готов к использованию')
+  }
+  document.head.appendChild(script)
+})
 </script>
 
 <style scoped lang="scss">
@@ -273,6 +290,34 @@
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     font-size: 0.9rem;
     line-height: 1.5;
+  }
+
+  &__live-demo {
+    margin-top: $p-4;
+    padding: $p-4;
+    background: $bg-primary;
+    border-radius: $border-radius-lg;
+    border: 2px solid $secondary-color;
+
+    h3 {
+      color: $text-primary;
+      margin-bottom: $mb-3;
+      font-family: $font-family-primary;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+  }
+
+  &__editable-text {
+    padding: $p-3;
+    background: $bg-secondary;
+    border-radius: $border-radius;
+    color: $text-primary;
+    font-family: $font-family-primary;
+    font-size: 1rem;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
 
   // Кнопки
