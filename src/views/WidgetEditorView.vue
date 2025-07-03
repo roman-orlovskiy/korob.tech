@@ -22,7 +22,7 @@
               <span class="widget-editor__code-dot widget-editor__code-dot--yellow"></span>
               <span class="widget-editor__code-dot widget-editor__code-dot--green"></span>
             </div>
-            <pre class="widget-editor__code-content"><code>&lt;script src="widget.js"&gt;&lt;/script&gt;
+            <pre class="widget-editor__code-content"><code>&lt;script src="https://korob.tech/widgets/editor/v1.0.5/widget.js"&gt;<br>&lt;/script&gt;
 &lt;div data-widget="editable"&gt;
   Ваш контент здесь
 &lt;/div&gt;</code></pre>
@@ -245,7 +245,7 @@
     border-radius: $border-radius-lg;
     overflow: hidden;
     box-shadow: $shadow-lg;
-    max-width: 400px;
+    max-width: 600px;
     width: 100%;
   }
 
