@@ -11,8 +11,8 @@
             Мощный виджет для мгновенного редактирования текста на любом сайте
           </p>
           <div class="widget-editor__hero-buttons">
-            <router-link to="/demo" class="widget-editor__btn widget-editor__btn--primary">Попробовать бесплатно</router-link>
-            <button class="widget-editor__btn widget-editor__btn--secondary">Документация</button>
+            <router-link to="/demo" class="widget-editor__btn widget-editor__btn--primary">Подключить виджет</router-link>
+            <button style="display: none;" class="widget-editor__btn widget-editor__btn--secondary">Документация</button>
           </div>
         </div>
         <div class="widget-editor__hero-visual">
@@ -22,17 +22,59 @@
               <span class="widget-editor__code-dot widget-editor__code-dot--yellow"></span>
               <span class="widget-editor__code-dot widget-editor__code-dot--green"></span>
             </div>
-            <pre class="widget-editor__code-content"><code>&lt;script src="https://korob.tech/widgets/editor/v1.0.5/widget.js"&gt;<br>&lt;/script&gt;
-&lt;div data-widget="Мой ключ"&gt;
-  {{ contentData }}
+            <pre class="widget-editor__code-content"><code>
+&lt;script 
+  src="https://korob.tech/widgets/editor/v1.0.5/widget.js"&gt;
+&lt;/script&gt;
+&lt;div 
+  data-widget="Мой ключ"&gt;
 &lt;/div&gt;</code></pre>
             <div class="widget-editor__live-demo">
               <h3>Живой пример:</h3>
               <div
                 data-widget="Мой ключ" class="widget-editor__editable-text"
-                v-html="contentData"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Простой пример -->
+      <section class="widget-editor__simple-example">
+        <div class="widget-editor__simple-example-content">
+          <h2 class="widget-editor__simple-example-title">Попробуйте прямо сейчас</h2>
+          <p class="widget-editor__simple-example-description">
+            Кликните на текст ниже и отредактируйте его. Изменения сохранятся автоматически.
+          </p>
+          
+                      <div class="widget-editor__example-container">
+              <div class="widget-editor__example-text">
+                <h3>Заголовок страницы</h3>
+                <div 
+                  data-widget="Заголовок страницы" 
+                  class="widget-editor__editable-example"
+                ></div>
+              </div>
+              
+              <div class="widget-editor__example-text">
+                <h3>Описание</h3>
+                <div 
+                  data-widget="Описание" 
+                  class="widget-editor__editable-example"
+                ></div>
+              </div>
+              
+              <div class="widget-editor__example-text">
+                <h3>Контактная информация</h3>
+                <div 
+                  data-widget="Контактная информация" 
+                  class="widget-editor__editable-example"
+                ></div>
+              </div>
+            </div>
+          
+          <div class="widget-editor__example-info">
+            <p>💡 <strong>Совет:</strong> Просто кликните на любой текст выше и начните редактировать. Все изменения сохраняются в реальном времени!</p>
           </div>
         </div>
       </section>
@@ -49,7 +91,7 @@
             </div>
             <h3 class="widget-editor__feature-title">Универсальность</h3>
             <p class="widget-editor__feature-description">
-              Работает с Vue.js, React и обычными HTML. Можно подключить на любые сайты
+              Работает с <b>Vue</b>, <b>React</b> и обычными HTML. Можно подключить на <b>любые сайты</b>
             </p>
           </div>
           
@@ -117,9 +159,13 @@
             <div class="widget-editor__example-header">
               <h3 class="widget-editor__example-title">Vue.js</h3>
             </div>
-            <div class="widget-editor__example-content">
-              <pre class="widget-editor__example-code" v-pre><code>&lt;template&gt;
-  &lt;div data-widget="editable"&gt;
+                        <div class="widget-editor__example-content">
+              <pre class="widget-editor__example-code" v-pre><code>&lt;script 
+  src="content.js"&gt;
+&lt;/script&gt;
+&lt;template&gt;
+  &lt;div 
+    data-widget="Заголовок страницы"&gt;
     {{ content }}
   &lt;/div&gt;
 &lt;/template&gt;</code></pre>
@@ -131,9 +177,13 @@
               <h3 class="widget-editor__example-title">React</h3>
             </div>
             <div class="widget-editor__example-content">
-              <pre class="widget-editor__example-code"><code>function Component() {
+              <pre class="widget-editor__example-code"><code>&lt;script 
+  src="content.js"&gt;
+&lt;/script&gt;
+function Component() {
   return (
-    &lt;div data-widget="editable"&gt;
+    &lt;div 
+      data-widget="Описание"&gt;
       {content}
     &lt;/div&gt;
   );
@@ -146,7 +196,11 @@
               <h3 class="widget-editor__example-title">HTML</h3>
             </div>
             <div class="widget-editor__example-content">
-              <pre class="widget-editor__example-code"><code>&lt;div data-widget="editable"&gt;
+              <pre class="widget-editor__example-code"><code>&lt;script 
+  src="content.js"&gt;
+&lt;/script&gt;
+&lt;div 
+  data-widget="Контактная информация"&gt;
   Статический контент
 &lt;/div&gt;</code></pre>
             </div>
@@ -162,7 +216,7 @@
             Подключите виджет за 5 минут и получите полный контроль над контентом вашего сайта
           </p>
           <router-link to="/demo" class="widget-editor__btn widget-editor__btn--primary widget-editor__btn--large">
-            Начать бесплатно
+            Подключить виджет
           </router-link>
         </div>
       </section>
@@ -173,12 +227,20 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
-const contentData = ref('<i>Изначальный</i> <b>контент</b>, который можно изменить')
+const contentData = ref('')
+const pageTitle = ref('')
+const pageDescription = ref('')
+const contactInfo = ref('')
 
 // Callback функция для обработки изменений в виджете
 const handleContentChange = (key: string, value: string) => {
- if (key === 'Мой ключ') {
+ if (key === 'Заголовок страницы') {
   contentData.value = value
+  pageTitle.value = value
+ } else if (key === 'Описание') {
+  pageDescription.value = value
+ } else if (key === 'Контактная информация') {
+  contactInfo.value = value
  }
 
  console.log(`Изменен элемент с ключом "${key}":`, value)
@@ -186,8 +248,16 @@ const handleContentChange = (key: string, value: string) => {
 
 onMounted(() => {
   if ((window as any).WidgetEditor) {
-      (window as any).WidgetEditor.onContentChange(handleContentChange)
-    }
+    (window as any).WidgetEditor.onContentChange(handleContentChange)
+  }
+  
+  // Загружаем контент из JSONP файла
+  if ((window as any).WidgetContent) {
+    contentData.value = (window as any).WidgetContent['Заголовок страницы'] || ''
+    pageTitle.value = (window as any).WidgetContent['Заголовок страницы'] || ''
+    pageDescription.value = (window as any).WidgetContent['Описание'] || ''
+    contactInfo.value = (window as any).WidgetContent['Контактная информация'] || ''
+  }
 })
 </script>
 
@@ -554,6 +624,91 @@ onMounted(() => {
     line-height: 1.4;
     margin: 0;
     overflow-x: auto;
+  }
+
+  // Простой пример
+  &__simple-example {
+    background: $bg-secondary;
+    padding: $p-5 0;
+    margin: $mb-5 0;
+    border-radius: $border-radius-xl;
+  }
+
+  &__simple-example-content {
+    max-width: $breakpoint-xl;
+    margin: 0 auto;
+    padding: 0 $p-4;
+  }
+
+  &__simple-example-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $text-primary;
+    text-align: center;
+    margin-bottom: $mb-3;
+    font-family: $font-family-primary;
+
+    @media (max-width: $breakpoint-md) {
+      font-size: 2rem;
+    }
+  }
+
+  &__simple-example-description {
+    font-size: 1.1rem;
+    color: $text-secondary;
+    text-align: center;
+    margin-bottom: $mb-5;
+    font-family: $font-family-primary;
+    line-height: 1.6;
+  }
+
+  &__example-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: $p-4;
+    margin-bottom: $mb-4;
+  }
+
+  &__example-text {
+    background: $bg-primary;
+    padding: $p-4;
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow-md;
+
+    h3 {
+      color: $text-primary;
+      margin-bottom: $mb-3;
+      font-family: $font-family-primary;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+  }
+
+  &__editable-example {
+    padding: $p-3;
+    background: $bg-secondary;
+    border-radius: $border-radius;
+    color: $text-primary;
+    font-family: $font-family-primary;
+    font-size: 1rem;
+    line-height: 1.6;
+    min-height: 60px;
+  }
+
+  &__example-info {
+    text-align: center;
+    padding: $p-3;
+    background: rgba($primary-color, 0.1);
+    border-radius: $border-radius-lg;
+    border: 1px solid rgba($primary-color, 0.2);
+
+    p {
+      color: $text-primary;
+      font-family: $font-family-primary;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin: 0;
+    }
   }
 
   // CTA секция

@@ -431,7 +431,15 @@
     const key = element.getAttribute('data-widget');
     if (!key || elements.has(key)) return;
 
-    const originalText = element.innerHTML || '';
+    // Загружаем контент из JSONP файла
+    let content = '';
+    if (window.WidgetContent && window.WidgetContent[key]) {
+      content = window.WidgetContent[key];
+    }
+    
+    // Устанавливаем контент в элемент
+    element.innerHTML = content;
+    const originalText = content;
     
     // Создаем круг и добавляем его прямо в body
     const circle = document.createElement('div');
