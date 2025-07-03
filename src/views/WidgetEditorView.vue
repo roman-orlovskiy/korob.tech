@@ -177,8 +177,11 @@ const contentData = ref('<i>Изначальный</i> <b>контент</b>, к
 
 // Callback функция для обработки изменений в виджете
 const handleContentChange = (key: string, value: string) => {
+ if (key === 'Мой ключ') {
   contentData.value = value
-  console.log(`Изменен элемент с ключом "${key}":`, value)
+ }
+
+ console.log(`Изменен элемент с ключом "${key}":`, value)
 }
 
 onMounted(() => {
