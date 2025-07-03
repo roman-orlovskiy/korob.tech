@@ -21,6 +21,7 @@
   let observer = null;
   let saveTimeout = null;
   let modal = null;
+  let overlayContainer = null;
 
   // Генерация уникального ID
   function generateId() {
@@ -34,6 +35,17 @@
     const style = document.createElement('style');
     style.id = 'widget-editor-styles';
     style.textContent = `
+      .widget-overlay-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+        overflow: hidden;
+      }
+      
       .widget-circle {
         position: absolute;
         width: 24px;
@@ -237,6 +249,33 @@
     document.head.appendChild(style);
   }
 
+  // Создание контейнера-оверлея
+  function createOverlayContainer() {
+    if (overlayContainer) return overlayContainer;
+
+    overlayContainer = document.createElement('div');
+    overlayContainer.className = 'widget-overlay-container';
+    
+    // Устанавливаем размеры контейнера равными размерам документа
+    overlayContainer.style.width = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) + 'px';
+    overlayContainer.style.height = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) + 'px';
+    
+    document.body.appendChild(overlayContainer);
+
+    return overlayContainer;
+  }
+
+  // Получение позиции элемента относительно документа
+  function getElementPosition(element) {
+    const rect = element.getBoundingClientRect();
+    return {
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
+      width: rect.width,
+      height: rect.height
+    };
+  }
+
   // Создание модального окна
   function createModal() {
     if (modal) return modal;
@@ -349,6 +388,18 @@
     }, config.saveDelay);
   }
 
+  // Обновление позиции круга
+  function updateCirclePosition(key) {
+    const item = elements.get(key);
+    if (!item || !item.circle) return;
+
+    const position = getElementPosition(item.element);
+    const circle = item.circle;
+    
+    circle.style.top = (position.top + position.height / 2) + 'px';
+    circle.style.left = (position.left + position.width / 2) + 'px';
+  }
+
   // Инициализация элемента
   function initElement(element) {
     const key = element.getAttribute('data-widget');
@@ -356,11 +407,14 @@
 
     const originalText = element.textContent || '';
     
-    // Создаем круг и добавляем его прямо в элемент
+    // Создаем контейнер-оверлей если его нет
+    const container = createOverlayContainer();
+    
+    // Создаем круг и добавляем его в контейнер-оверлей
     const circle = document.createElement('div');
     circle.className = 'widget-circle';
     circle.setAttribute('data-widget-circle', key);
-    element.appendChild(circle);
+    container.appendChild(circle);
     
     elements.set(key, {
       element: element,
@@ -369,11 +423,21 @@
       circle: circle
     });
 
+    // Устанавливаем позицию круга
+    updateCirclePosition(key);
+
     // Добавляем обработчик клика на круг
     circle.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
       openModal(key);
+    });
+  }
+
+  // Обновление позиций всех кругов
+  function updateAllCirclePositions() {
+    elements.forEach((item, key) => {
+      updateCirclePosition(key);
     });
   }
 
@@ -414,6 +478,20 @@
     });
   }
 
+  // Обновление размеров контейнера
+  function updateContainerSize() {
+    if (overlayContainer) {
+      overlayContainer.style.width = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) + 'px';
+      overlayContainer.style.height = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) + 'px';
+    }
+  }
+
+  // Обработчик изменения размера окна и скролла
+  function handleResizeAndScroll() {
+    updateContainerSize();
+    updateAllCirclePositions();
+  }
+
   // Инициализация
   function init(userConfig = {}) {
     // Объединяем конфигурацию
@@ -427,6 +505,13 @@
     
     // Наблюдаем за изменениями
     observeDOM();
+    
+    // Обновляем размеры контейнера
+    updateContainerSize();
+    
+    // Добавляем обработчики событий
+    window.addEventListener('resize', handleResizeAndScroll);
+    window.addEventListener('scroll', handleResizeAndScroll);
   }
 
   // API для внешнего использования
@@ -446,6 +531,7 @@
     getKeys: () => {
       return Array.from(elements.keys());
     },
+    updatePositions: updateAllCirclePositions,
     destroy: () => {
       if (observer) {
         observer.disconnect();
@@ -457,12 +543,13 @@
         modal.remove();
         modal = null;
       }
-      // Удаляем все круги
-      elements.forEach((item, key) => {
-        if (item.circle && item.circle.parentNode) {
-          item.circle.parentNode.removeChild(item.circle);
-        }
-      });
+      if (overlayContainer) {
+        overlayContainer.remove();
+        overlayContainer = null;
+      }
+      // Удаляем обработчики событий
+      window.removeEventListener('resize', handleResizeAndScroll);
+      window.removeEventListener('scroll', handleResizeAndScroll);
       elements.clear();
     }
   };
