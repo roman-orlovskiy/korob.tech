@@ -23,12 +23,12 @@
               <span class="widget-editor__code-dot widget-editor__code-dot--green"></span>
             </div>
             <pre class="widget-editor__code-content"><code>&lt;script src="https://korob.tech/widgets/editor/v1.0.5/widget.js"&gt;<br>&lt;/script&gt;
-&lt;div data-widget="Ключ элемента"&gt;
+&lt;div data-widget="Мой ключ"&gt;
   Изначальный контент, который можно изменить
 &lt;/div&gt;</code></pre>
             <div class="widget-editor__live-demo">
               <h3>Живой пример:</h3>
-              <div data-widget="Ключ элемента" class="widget-editor__editable-text">
+              <div data-widget="Мой ключ" class="widget-editor__editable-text">
                 Изначальный контент, который можно изменить
               </div>
             </div>
@@ -48,7 +48,7 @@
             </div>
             <h3 class="widget-editor__feature-title">Универсальность</h3>
             <p class="widget-editor__feature-description">
-              Работает с Vue.js, React и обычными HTML сайтами. Один виджет для всех технологий.
+              Работает с Vue.js, React и обычными HTML. Можно подключить на любые сайты
             </p>
           </div>
           

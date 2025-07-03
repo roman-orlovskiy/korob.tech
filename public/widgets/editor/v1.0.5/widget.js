@@ -124,6 +124,36 @@
         margin: 0;
       }
       
+      .widget-modal-key {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        padding: 8px 12px;
+        background: #f9fafb;
+        border-radius: 6px;
+        border: 1px solid #e5e7eb;
+      }
+      
+      .widget-modal-key-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      .widget-modal-key-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1f2937;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        background: #f3f4f6;
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid #d1d5db;
+      }
+      
       .widget-modal-close {
         background: none;
         border: none;
@@ -206,6 +236,21 @@
           color: white;
         }
         
+        .widget-modal-key {
+          background: #374151;
+          border-color: #4b5563;
+        }
+        
+        .widget-modal-key-label {
+          color: #9ca3af;
+        }
+        
+        .widget-modal-key-value {
+          color: white;
+          background: #4b5563;
+          border-color: #6b7280;
+        }
+        
         .widget-modal-textarea {
           background: #374151;
           border-color: #4b5563;
@@ -262,6 +307,10 @@
         <div class="widget-modal-header">
           <h3 class="widget-modal-title">Редактировать текст</h3>
           <button class="widget-modal-close">&times;</button>
+        </div>
+        <div class="widget-modal-key">
+          <span class="widget-modal-key-label">Ключ элемента:</span>
+          <span class="widget-modal-key-value"></span>
         </div>
         <textarea class="widget-modal-textarea" placeholder="Введите текст..."></textarea>
         <div class="widget-modal-actions">
@@ -337,9 +386,11 @@
 
     const modal = createModal();
     const textarea = modal.querySelector('.widget-modal-textarea');
+    const keyValue = modal.querySelector('.widget-modal-key-value');
     
     modal.dataset.currentKey = key;
     textarea.value = item.element.textContent || '';
+    keyValue.textContent = key;
     
     modal.style.display = 'flex';
     setTimeout(() => {
