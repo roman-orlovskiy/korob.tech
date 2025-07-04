@@ -11,7 +11,7 @@
             Мощный виджет для мгновенного редактирования текста на любом сайте
           </p>
           <div class="widget-editor__hero-buttons">
-            <router-link to="/demo" class="widget-editor__btn widget-editor__btn--primary">Подключить виджет</router-link>
+            <router-link to="/demo" class="widget-editor__btn widget-editor__btn--primary">Начать работу</router-link>
             <button style="display: none;" class="widget-editor__btn widget-editor__btn--secondary">Документация</button>
           </div>
         </div>
@@ -109,9 +109,7 @@
           
           <div class="widget-editor__feature">
             <div class="widget-editor__feature-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-              </svg>
+              <span style="font-size: 48px; font-weight: bold;">₽</span>
             </div>
             <h3 class="widget-editor__feature-title">Экономия бюджета</h3>
             <p class="widget-editor__feature-description">
@@ -129,7 +127,7 @@
             <div class="widget-editor__step-number">1</div>
             <h3 class="widget-editor__step-title">Подключите виджет</h3>
             <p class="widget-editor__step-description">
-              Добавьте один JavaScript файл на ваш сайт
+              Добавьте файл виджета и файл контента
             </p>
           </div>
           
@@ -157,16 +155,12 @@
         <div class="widget-editor__examples-grid">
           <div class="widget-editor__example">
             <div class="widget-editor__example-header">
-              <h3 class="widget-editor__example-title">Vue.js</h3>
+              <h3 class="widget-editor__example-title">Vue</h3>
             </div>
                         <div class="widget-editor__example-content">
-              <pre class="widget-editor__example-code" v-pre><code>&lt;script 
-  src="content.js"&gt;
-&lt;/script&gt;
-&lt;template&gt;
+              <pre class="widget-editor__example-code" v-pre><code>&lt;template&gt;
   &lt;div 
-    data-widget="Заголовок страницы"&gt;
-    {{ content }}
+    data-widget="Ключ текста"&gt;
   &lt;/div&gt;
 &lt;/template&gt;</code></pre>
             </div>
@@ -177,14 +171,10 @@
               <h3 class="widget-editor__example-title">React</h3>
             </div>
             <div class="widget-editor__example-content">
-              <pre class="widget-editor__example-code"><code>&lt;script 
-  src="content.js"&gt;
-&lt;/script&gt;
-function Component() {
+              <pre class="widget-editor__example-code"><code>function Component() {
   return (
     &lt;div 
-      data-widget="Описание"&gt;
-      {content}
+      data-widget="Уникальный ключ"&gt;
     &lt;/div&gt;
   );
 }</code></pre>
@@ -196,12 +186,8 @@ function Component() {
               <h3 class="widget-editor__example-title">HTML</h3>
             </div>
             <div class="widget-editor__example-content">
-              <pre class="widget-editor__example-code"><code>&lt;script 
-  src="content.js"&gt;
-&lt;/script&gt;
-&lt;div 
-  data-widget="Контактная информация"&gt;
-  Статический контент
+              <pre class="widget-editor__example-code"><code>&lt;div 
+  data-widget="Контакты"&gt;
 &lt;/div&gt;</code></pre>
             </div>
           </div>
@@ -216,7 +202,7 @@ function Component() {
             Подключите виджет за 5 минут и получите полный контроль над контентом вашего сайта
           </p>
           <router-link to="/demo" class="widget-editor__btn widget-editor__btn--primary widget-editor__btn--large">
-            Подключить виджет
+            Начать работу
           </router-link>
         </div>
       </section>
