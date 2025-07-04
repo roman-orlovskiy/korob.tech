@@ -16,6 +16,12 @@
     onEdit: null
   };
 
+  // Проверка параметра editorWidget в URL
+  function isEditorEnabled() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('editorWidget') === 'on';
+  }
+
   // Хранилище элементов
   const elements = new Map();
   let observer = null;
@@ -382,7 +388,7 @@
   // Открытие модального окна
   function openModal(key) {
     const item = elements.get(key);
-    if (!item) return;
+    if (!item || !isEditorEnabled()) return;
 
     const modal = createModal();
     const textarea = modal.querySelector('.widget-modal-textarea');
@@ -441,33 +447,37 @@
     element.innerHTML = content;
     const originalText = content;
     
-    // Создаем круг и добавляем его прямо в body
-    const circle = document.createElement('div');
-    circle.className = 'widget-circle';
-    circle.setAttribute('data-widget-circle', key);
-    document.body.appendChild(circle);
-    
     elements.set(key, {
       element: element,
       key: key,
       originalText: originalText,
-      circle: circle
+      circle: null
     });
 
-    // Устанавливаем позицию круга
-    updateCirclePosition(key);
+    // Создаем круг только если редактор включен
+    if (isEditorEnabled()) {
+      const circle = document.createElement('div');
+      circle.className = 'widget-circle';
+      circle.setAttribute('data-widget-circle', key);
+      document.body.appendChild(circle);
+      
+      elements.get(key).circle = circle;
+
+      // Устанавливаем позицию круга
+      updateCirclePosition(key);
+
+      // Добавляем обработчик клика на круг
+      circle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openModal(key);
+      });
+    }
 
     // Добавляем элемент в ResizeObserver
     if (resizeObserver) {
       resizeObserver.observe(element);
     }
-
-    // Добавляем обработчик клика на круг
-    circle.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      openModal(key);
-    });
   }
 
   // Удаление элемента
@@ -490,7 +500,9 @@
   // Обновление позиций всех кругов
   function updateAllCirclePositions() {
     elements.forEach((item, key) => {
-      updateCirclePosition(key);
+      if (isEditorEnabled()) {
+        updateCirclePosition(key);
+      }
     });
   }
 
@@ -626,8 +638,10 @@
     // Объединяем конфигурацию
     Object.assign(config, userConfig);
     
-    // Создаем стили
-    createStyles();
+    // Создаем стили только если редактор включен
+    if (isEditorEnabled()) {
+      createStyles();
+    }
     
     // Сканируем существующие элементы
     scanElements();
@@ -676,6 +690,7 @@
       }
     },
     updatePositions: updateAllCirclePositions,
+    isEditorEnabled: isEditorEnabled,
     destroy: () => {
           if (observer) {
       observer.disconnect();
